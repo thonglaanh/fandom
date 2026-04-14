@@ -2157,3 +2157,366 @@ body {
     border-bottom-color: rgba(255, 107, 157, 0.45);
 }
 
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 100svh;
+        height: auto;
+        padding: calc(1rem + env(safe-area-inset-top)) 0 calc(1.25rem + env(safe-area-inset-bottom));
+    }
+
+    .hero-content {
+        width: min(100vw - 0.9rem, 100%);
+        padding: 0 0.35rem;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .hero-showcase {
+        width: 100%;
+        gap: 0.7rem;
+    }
+
+    .hero-copy {
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-eyebrow {
+        align-self: center;
+        margin-bottom: 0.7rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+    }
+
+    .hero-countdown-card {
+        transform: none;
+        padding: 0.85rem;
+        border-radius: 22px;
+    }
+
+    .hero-countdown-card::before {
+        width: 72px;
+        height: 2px;
+    }
+
+    .hero-countdown-label {
+        margin-bottom: 0.7rem;
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+    }
+
+    .hero-countdown-card .countdown {
+        gap: 0.3rem;
+    }
+
+    .hero-countdown-card .countdown-item {
+        min-width: 52px;
+        padding: 0.5rem 0.45rem;
+        border-radius: 16px;
+    }
+
+    .hero-countdown-card .countdown-value {
+        font-size: 1.4rem;
+    }
+
+    .hero-countdown-card .countdown-label {
+        font-size: 0.56rem;
+        letter-spacing: 0.06em;
+    }
+
+    .hero-countdown-card .countdown-separator {
+        display: none;
+    }
+
+    .hero-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.55rem;
+        min-height: 0;
+    }
+
+    .hero-card {
+        border-radius: 20px;
+        aspect-ratio: 3 / 4;
+    }
+
+    .hero-card--primary {
+        transform: rotate(-3deg);
+    }
+
+    .hero-card--secondary {
+        width: 100%;
+        margin-left: 0;
+        transform: translateY(10%) rotate(4deg);
+        aspect-ratio: 3 / 4;
+    }
+
+    .hero-title {
+        font-size: clamp(2.2rem, 12vw, 3.35rem);
+        margin-bottom: 0.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.95rem, 3.8vw, 1.1rem);
+        margin-bottom: 1rem;
+        letter-spacing: 0.08em;
+    }
+
+    .hero-subtitle::before,
+    .hero-subtitle::after {
+        display: none;
+    }
+
+    .btn-start {
+        width: 100%;
+        padding: 1rem 1.15rem;
+        font-size: 0.84rem;
+        border-radius: 999px;
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
+
+    .map-section {
+        min-height: 100svh;
+        height: auto;
+    }
+
+    .map-container,
+    .map-wrapper {
+        height: 100svh;
+        min-height: 100svh;
+    }
+
+    .zoom-controls {
+        right: 0.75rem;
+        bottom: 0.75rem;
+    }
+
+    .zoom-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .zoom-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .popup-modal {
+        align-items: flex-end;
+        padding: 0.4rem;
+    }
+
+    .popup-content {
+        width: 100%;
+        max-width: none;
+        max-height: calc(100svh - 0.8rem);
+        border-radius: 22px 22px 12px 12px;
+    }
+
+    .popup-close {
+        top: 0.8rem;
+        right: 0.8rem;
+        width: 34px;
+        height: 34px;
+        font-size: 1.2rem;
+    }
+
+    .popup-city {
+        font-size: 1.55rem;
+        padding: 1.3rem 1rem 0.85rem;
+    }
+
+    .popup-description {
+        padding: 0 1rem 1rem;
+        font-size: 0.92rem;
+        line-height: 1.58;
+    }
+
+    .popup-image-container {
+        height: clamp(170px, 34svh, 255px);
+    }
+
+    .audio-player {
+        padding: 1rem;
+        gap: 1rem;
+        border-radius: 0 0 22px 22px;
+    }
+
+    .play-btn {
+        width: 54px;
+        height: 54px;
+    }
+
+    .play-icon,
+    .pause-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .audio-title {
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .audio-progress {
+        height: 5px;
+    }
+
+    .audio-time {
+        font-size: 0.75rem;
+    }
+
+    .audio-playlist {
+        max-height: 6rem;
+        gap: 0.4rem;
+        margin-top: 0.55rem;
+    }
+
+    .audio-track-btn {
+        padding: 0.42rem 0.7rem;
+        font-size: 0.66rem;
+    }
+
+    .footer {
+        min-height: auto;
+    }
+
+    .footer-main {
+        padding: 2rem 1rem 1.5rem;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .footer-bottom {
+        padding: 1rem;
+    }
+
+    .footer-bottom-content {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        gap: 0.75rem;
+    }
+
+    .footer-stats {
+        justify-content: flex-start;
+        gap: 0.65rem;
+    }
+
+    .brand-title {
+        font-size: 1.15rem;
+    }
+
+    .brand-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .footer-links li a,
+    .credits-list li {
+        font-size: 0.88rem;
+    }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+    .hero-section {
+        min-height: 100svh;
+        height: auto;
+        padding: 0.65rem 0;
+    }
+
+    .hero-content {
+        width: min(100vw - 1rem, 100%);
+        padding: 0 0.4rem;
+    }
+
+    .hero-grid {
+        grid-template-columns: minmax(240px, 0.8fr) minmax(280px, 1.2fr);
+        gap: 1rem;
+    }
+
+    .hero-countdown-card {
+        transform: none;
+        padding: 0.75rem;
+    }
+
+    .hero-countdown-card .countdown-item {
+        min-width: 44px;
+        padding: 0.45rem 0.4rem;
+    }
+
+    .hero-countdown-card .countdown-value {
+        font-size: 1.25rem;
+    }
+
+    .hero-gallery {
+        min-height: 0;
+    }
+
+    .hero-card {
+        border-radius: 18px;
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
+
+    .map-section,
+    .map-container,
+    .map-wrapper {
+        height: 100svh;
+    }
+}
+
+@media (max-width: 420px) {
+    .hero-content {
+        width: min(100vw - 0.7rem, 100%);
+    }
+
+    .hero-grid {
+        gap: 0.85rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 12vw, 2.8rem);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.88rem, 3.5vw, 1rem);
+    }
+
+    .hero-countdown-card .countdown-item {
+        min-width: 46px;
+        padding: 0.45rem 0.38rem;
+    }
+
+    .hero-countdown-card .countdown-value {
+        font-size: 1.25rem;
+    }
+
+    .hero-card {
+        border-radius: 18px;
+    }
+
+    .popup-city {
+        font-size: 1.35rem;
+    }
+
+    .popup-description {
+        font-size: 0.88rem;
+    }
+
+    .audio-track-btn {
+        font-size: 0.62rem;
+        padding: 0.38rem 0.6rem;
+    }
+}
+
