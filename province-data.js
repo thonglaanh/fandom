@@ -213,8 +213,8 @@ window.PROVINCE_DATA = {
     audio: "assets/audio/HO CHI MINH CITY.mp3"
   },
   "hoang-sa": {
-    title: "Hoàng Sa",
-    intro: "Quần đảo Hoàng Sa trên Biển Đông, được hiển thị như một lớp chú thích riêng trên bản đồ.",
+    title: "SHINGKAO",
+    intro: "Starting on December 12th, 2025, with all the love for you. Wishing you a very happy birthday!",
     audioLabel: "SHINGKAO Starting on December 12th, 2025, with all the love for you. Wishing you a very happy birthday!",
     image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=1200",
     audio: "assets/audio/SHININGKAO.mp3"
