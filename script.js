@@ -582,20 +582,20 @@ function getFeatureIdentity(feature) {
 }
 
 function styleProvinceFeature(feature) {
-    const identity = getFeatureIdentity(feature);
+  const identity = getFeatureIdentity(feature);
+  const profile = getRegionProfile(identity.displayName, identity.regionKey);
+  const hasAudio = Array.isArray(profile.audioTracks) && profile.audioTracks.length > 0;
 
-    return {
-        className: `province-region${identity.isSpecial ? ' province-region--island' : ''}`,
-        color: identity.isSpecial ? '#feca57' : '#ffffff',
-        weight: identity.isSpecial ? 1.5 : 1.1,
-        opacity: 0.88,
-        fillColor: identity.isSpecial ? '#feca57' : '#ff6b9d',
-        fillOpacity: identity.isSpecial ? 0.25 : 0.18,
-        lineJoin: 'round',
-        lineCap: 'round',
-        dashArray: identity.isSpecial ? '4 4' : '',
-        interactive: true
-    };
+  return {
+    className: `province-region${identity.isSpecial ? ' province-region--island' : ''}${hasAudio ? ' province-region--has-audio' : ' province-region--mute'}`,
+    color: identity.isSpecial ? '#feca57' : (hasAudio ? '#ffffff' : 'rgba(255,255,255,0.16)'),
+    weight: identity.isSpecial ? 1.5 : (hasAudio ? 1.1 : 0.7),
+    opacity: hasAudio ? 0.88 : 0.22,
+    fillColor: identity.isSpecial ? '#feca57' : (hasAudio ? '#ff6b9d' : 'rgba(255,255,255,0.15)'),
+    fillOpacity: hasAudio ? (identity.isSpecial ? 0.25 : 0.18) : 0.05,
+    dashArray: identity.isSpecial ? '4 4' : '',
+    interactive: identity.isSpecial || hasAudio
+  };
 }
 
 function bindProvinceFeature(feature, layer) {

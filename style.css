@@ -2157,6 +2157,14 @@ body {
     border-bottom-color: rgba(255, 107, 157, 0.45);
 }
 
+.province-region--mute {
+  cursor: default;
+}
+
+.province-region--mute:hover {
+  fill-opacity: 0.08;
+}
+
 @media (max-width: 768px) {
     .hero-section {
         min-height: 100svh;
