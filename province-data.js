@@ -27,9 +27,9 @@ window.PROVINCE_DATA = {
   },
   "quang-nam": {
     title: "Quảng Nam",
-    intro: "Vùng đất di sản với phố cổ, biển đảo và nhiều lớp văn hóa giao hòa.",
+    intro: "Quang Nam: The Convergence of Heritage and Horizon Inheriting the legacy of a historic gateway, Quang Nam emerges as a vibrant cultural tapestry. Here, the moss-clad alleys of Hoi An and the sacred towers of My Son rest peacefully beside the bustling Chu Lai Economic Zone stretching toward the ocean. The locals embody the resilient soul of the central coast: authentic, industrious, and always welcoming you with a sincerity as hearty as a flavorful bowl of \"Mì Quảng\" paired with a crisp rice cracker. From the poetic Thu Bon River glowing with lanterns to the dynamic rhythm of modern seaports, this land is a perfect harmony of UNESCO heritage and the soaring pulse of a world-class development hub.",
     audioLabel: "Lời chúc từ Quảng Nam",
-    image: "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=1200",
+    image: "https://statics.vinwonders.com/Quang-Nam-Vietnam_1725355197.png",
     audio: "assets/audio/QUẢNG NAM - Lynn Phạm.mp3"
   },
   "quang-ngai": {
@@ -216,7 +216,8 @@ window.PROVINCE_DATA = {
     title: "Hoàng Sa",
     intro: "Quần đảo Hoàng Sa trên Biển Đông, được hiển thị như một lớp chú thích riêng trên bản đồ.",
     audioLabel: "Hoàng Sa",
-    image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=1200"
+    image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=1200",
+    audio: "assets/audio/SHININGKAO.mp3"
   },
   "truong-sa": {
     title: "Trường Sa",

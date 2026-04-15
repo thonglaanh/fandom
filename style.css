@@ -273,6 +273,26 @@ body {
     line-height: 0.95;
     filter: drop-shadow(0 0 40px rgba(255, 107, 157, 0.4));
     transform: scaleY(1.15);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+}
+
+.hero-title-line {
+    display: block;
+}
+
+.hero-title-line--secondary {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.05rem, 2.2vw, 1.65rem);
+    line-height: 1.2;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: none;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.88);
+    color: rgba(255, 255, 255, 0.88);
+    filter: none;
 }
 
 .hero-subtitle {
@@ -2135,6 +2155,35 @@ body {
     vector-effect: non-scaling-stroke;
 }
 
+.leaflet-interactive.province-region.province-region--has-audio {
+    fill: rgba(255, 95, 154, 0.3);
+    stroke: rgba(255, 233, 180, 0.96);
+    filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.45));
+    animation: provinceWishGlow 2.6s ease-in-out infinite;
+}
+
+.leaflet-interactive.province-region.province-region--has-audio:hover,
+.leaflet-interactive.province-region.province-region--has-audio.pulse-spark,
+.leaflet-interactive.province-region.province-region--has-audio.active {
+    fill: rgba(255, 107, 157, 0.46);
+    stroke: rgba(255, 215, 128, 1);
+    filter: drop-shadow(0 0 24px rgba(255, 107, 157, 0.72));
+}
+
+.leaflet-interactive.province-region.province-region--mute {
+    fill: rgba(255, 255, 255, 0.11);
+    stroke: rgba(255, 255, 255, 0.42);
+    opacity: 0.64;
+    filter: saturate(0.72);
+}
+
+.leaflet-interactive.province-region.province-region--mute:hover,
+.leaflet-interactive.province-region.province-region--mute.active {
+    fill: rgba(255, 255, 255, 0.19);
+    stroke: rgba(255, 255, 255, 0.62);
+    opacity: 0.9;
+}
+
 .leaflet-interactive.province-region.province-region--island {
     stroke-dasharray: 5 5;
 }
@@ -2158,11 +2207,22 @@ body {
 }
 
 .province-region--mute {
-  cursor: default;
+  cursor: pointer;
 }
 
 .province-region--mute:hover {
-  fill-opacity: 0.08;
+    fill-opacity: 0.2;
+}
+
+@keyframes provinceWishGlow {
+    0%, 100% {
+        fill-opacity: 0.24;
+        stroke-opacity: 0.9;
+    }
+    50% {
+        fill-opacity: 0.4;
+        stroke-opacity: 1;
+    }
 }
 
 @media (max-width: 768px) {
@@ -2265,6 +2325,11 @@ body {
     .hero-title {
         font-size: clamp(2.2rem, 12vw, 3.35rem);
         margin-bottom: 0.8rem;
+    }
+
+    .hero-title-line--secondary {
+        font-size: clamp(0.8rem, 3vw, 1rem);
+        letter-spacing: 0.1em;
     }
 
     .hero-subtitle {
@@ -2495,6 +2560,11 @@ body {
 
     .hero-title {
         font-size: clamp(2rem, 12vw, 2.8rem);
+    }
+
+    .hero-title-line--secondary {
+        font-size: clamp(0.72rem, 3.2vw, 0.88rem);
+        letter-spacing: 0.09em;
     }
 
     .hero-subtitle {

@@ -48,6 +48,7 @@ let leafletMap = null;
 let geoJsonLayer = null;
 let mapBounds = null;
 let regionLayers = [];
+let wishGlowLayers = [];
 let visualizerInterval = null;
 let backgroundFadeInterval = null;
 let toastStyleInjected = false;
@@ -172,8 +173,8 @@ function resolveRegionDisplayName(regionName) {
 function buildFallbackRegionProfile(regionName) {
     return {
         title: regionName,
-        intro: `Lời chúc từ ${regionName}.`,
-        audioLabel: `Lời chúc từ ${regionName}`,
+        intro: `Wishes from ${regionName}.`,
+        audioLabel: `Wishes from ${regionName}`,
         image: DEFAULT_REGION_IMAGE,
         audio: '',
         audioTracks: []
@@ -183,12 +184,29 @@ function buildFallbackRegionProfile(regionName) {
 function formatAudioTrackLabel(trackPath) {
     const fileName = decodeURIComponent(String(trackPath || '').split('/').pop() || '');
 
-    return fileName
-        .replace(/\.[^.]+$/, '')
+    const normalized = fileName
+        .replace(/\.(mp3|wav|m4a|aac|ogg)\b/gi, '')
         .replace(/\s*-\s*volume\s*$/i, '')
         .replace(/_/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
+
+    if (!normalized) {
+        return '.';
+    }
+
+    const nameParts = normalized.split(/\s*-\s*/).map((part) => part.trim()).filter(Boolean);
+
+    if (nameParts.length < 2) {
+        return '.';
+    }
+
+    const speakerName = nameParts[nameParts.length - 1]
+        .replace(/\.(mp3|wav|m4a|aac|ogg)\b/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    return speakerName || '.';
 }
 
 function normalizeAudioTracks(profile) {
@@ -252,7 +270,7 @@ function renderAudioPlaylist(audioTracks = [], activeTrackIndex = 0) {
         button.type = 'button';
         button.className = 'audio-track-btn';
         button.textContent = track.label || `Track ${index + 1}`;
-        button.title = track.src;
+        button.title = track.label || 'Audio track';
         button.dataset.index = String(index);
         button.setAttribute('aria-pressed', index === activeTrackIndex ? 'true' : 'false');
 
@@ -274,16 +292,14 @@ function updateAudioTitle(regionProfile = null) {
     }
 
     const title = regionProfile?.title || currentRegionName || 'Khu vực này';
-    const baseLabel = regionProfile?.audioLabel || `Lời chúc từ ${title}`;
+    const baseLabel = regionProfile?.audioLabel || `Wishes from ${title}`;
 
     if (!currentAudioTracks.length) {
-        audioTitle.textContent = `Chưa có audio cho ${title}`;
+        audioTitle.textContent = `No wishes yet from ${title}`;
         return;
     }
 
-    audioTitle.textContent = currentAudioTracks.length > 1
-        ? `${baseLabel} (${currentAudioTracks.length} file)`
-        : baseLabel;
+    audioTitle.textContent = baseLabel;
 }
 
 function loadAudioTrack(trackIndex = 0, { autoplay = false } = {}) {
@@ -343,12 +359,35 @@ function getRegionProfile(regionName, regionKey = resolveRegionKey(regionName)) 
 
     return {
         title,
-        intro: profile.intro || `Lời chúc từ ${title}.`,
-        audioLabel: profile.audioLabel || `Lời chúc từ ${title}`,
+        intro: profile.intro || `Wishes from ${title}.`,
+        audioLabel: `Wishes from ${title}`,
         image: profile.image || DEFAULT_REGION_IMAGE,
         audio: audioTracks[0]?.src || profile.audio || '',
         audioTracks
     };
+}
+
+function regionHasWishes(identity) {
+    if (!identity) {
+        return false;
+    }
+
+    const profile = getRegionProfile(identity.displayName, identity.regionKey);
+    return Array.isArray(profile.audioTracks) && profile.audioTracks.length > 0;
+}
+
+function clearWishGlowLayers() {
+    if (!wishGlowLayers.length) {
+        return;
+    }
+
+    wishGlowLayers.forEach((layer) => layer?.remove?.());
+    wishGlowLayers = [];
+}
+
+function renderWishGlowLayers() {
+    // Keep this hook for future map effects, but disable center dot markers.
+    clearWishGlowLayers();
 }
 
 function syncPlayButtonState(playing) {
@@ -522,6 +561,8 @@ async function loadProvinceMap() {
             onEachFeature: bindProvinceFeature
         }).addTo(leafletMap);
 
+        renderWishGlowLayers();
+
         mapBounds = geoJsonLayer.getBounds();
 
         refitMapToViewport({ animate: false, isRegionFocus: false });
@@ -583,23 +624,23 @@ function getFeatureIdentity(feature) {
 
 function styleProvinceFeature(feature) {
   const identity = getFeatureIdentity(feature);
-  const profile = getRegionProfile(identity.displayName, identity.regionKey);
-  const hasAudio = Array.isArray(profile.audioTracks) && profile.audioTracks.length > 0;
+    const hasAudio = regionHasWishes(identity);
 
   return {
     className: `province-region${identity.isSpecial ? ' province-region--island' : ''}${hasAudio ? ' province-region--has-audio' : ' province-region--mute'}`,
-    color: identity.isSpecial ? '#feca57' : (hasAudio ? '#ffffff' : 'rgba(255,255,255,0.16)'),
-    weight: identity.isSpecial ? 1.5 : (hasAudio ? 1.1 : 0.7),
-    opacity: hasAudio ? 0.88 : 0.22,
-    fillColor: identity.isSpecial ? '#feca57' : (hasAudio ? '#ff6b9d' : 'rgba(255,255,255,0.15)'),
-    fillOpacity: hasAudio ? (identity.isSpecial ? 0.25 : 0.18) : 0.05,
+                color: identity.isSpecial ? '#ffd873' : (hasAudio ? '#ffe9b4' : 'rgba(255,255,255,0.42)'),
+                weight: identity.isSpecial ? 1.8 : (hasAudio ? 1.4 : 0.95),
+                opacity: identity.isSpecial ? 0.96 : (hasAudio ? 0.95 : 0.62),
+                fillColor: identity.isSpecial ? '#ffb347' : (hasAudio ? '#ff5f9a' : '#ffffff'),
+                fillOpacity: identity.isSpecial ? 0.28 : (hasAudio ? 0.3 : 0.11),
     dashArray: identity.isSpecial ? '4 4' : '',
-    interactive: identity.isSpecial || hasAudio
+        interactive: true
   };
 }
 
 function bindProvinceFeature(feature, layer) {
     const identity = getFeatureIdentity(feature);
+        const hasWishes = regionHasWishes(identity);
     layer._regionIdentity = identity;
     regionLayers.push(layer);
 
@@ -614,8 +655,8 @@ function bindProvinceFeature(feature, layer) {
         if (currentRegionLayer !== layer) {
             layer.setStyle({
                 color: '#feca57',
-                weight: identity.isSpecial ? 2.4 : 2.2,
-                fillOpacity: identity.isSpecial ? 0.38 : 0.32
+                weight: identity.isSpecial ? 2.6 : (hasWishes ? 2.2 : 1.2),
+                fillOpacity: identity.isSpecial ? 0.4 : (hasWishes ? 0.36 : 0.2)
             });
         }
 
@@ -644,7 +685,9 @@ function bindProvinceFeature(feature, layer) {
         element.setAttribute('tabindex', '0');
         element.setAttribute('role', 'button');
         element.setAttribute('focusable', 'true');
-        element.setAttribute('aria-label', identity.displayName);
+        element.setAttribute('aria-label', hasWishes
+            ? `Wishes from ${identity.displayName}`
+            : `${identity.displayName} (no wishes yet)`);
 
         element.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
@@ -663,10 +706,12 @@ function setActiveRegion(regionLayer) {
     currentRegionLayer = regionLayer || null;
 
     if (currentRegionLayer) {
+        const hasWishes = regionHasWishes(currentRegionLayer._regionIdentity);
+
         currentRegionLayer.setStyle({
             color: '#feca57',
-            weight: currentRegionLayer._regionIdentity?.isSpecial ? 2.8 : 2.4,
-            fillOpacity: 0.42
+            weight: currentRegionLayer._regionIdentity?.isSpecial ? 2.8 : (hasWishes ? 2.45 : 1.35),
+            fillOpacity: currentRegionLayer._regionIdentity?.isSpecial ? 0.44 : (hasWishes ? 0.42 : 0.22)
         });
         currentRegionLayer.bringToFront();
     }
@@ -731,11 +776,11 @@ function openPopup(regionName, regionProfile = getRegionProfile(regionName)) {
     currentAudioPath = '';
 
     if (popupCity) {
-        popupCity.textContent = regionProfile.title || regionName;
+        popupCity.textContent = `Wishes from ${regionProfile.title || regionName}`;
     }
 
     if (popupDescription) {
-        popupDescription.textContent = regionProfile.intro || `Lời chúc từ ${regionProfile.title || regionName}.`;
+        popupDescription.textContent = regionProfile.intro || `Wishes from ${regionProfile.title || regionName}.`;
     }
 
     if (popupImage) {
@@ -979,7 +1024,7 @@ function startCountdown() {
 }
 
 function shareTwitter() {
-    const text = '2026 Birthday Project: The Sound of Love for Dạ Kao Supassara 💜 #BirthdayProject2026 #SoundOfLove';
+    const text = '2026 Birthday Project: Messages from Vietnamese Nudi and 9779s #BirthdayProject2026 #SoundOfLove';
     const url = window.location.href;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
 }
@@ -1129,7 +1174,7 @@ function startRegionPulse() {
             return;
         }
 
-        const candidates = regionLayers.filter((layer) => layer?.getElement?.());
+        const candidates = regionLayers.filter((layer) => layer?.getElement?.() && regionHasWishes(layer._regionIdentity));
         if (!candidates.length) {
             return;
         }
@@ -1163,4 +1208,4 @@ function initializeApp() {
 document.addEventListener('DOMContentLoaded', initializeApp);
 
 console.log('🎉 Birthday Project loaded successfully!');
-console.log('💝 Made with love for Dạ Kao Supassara');
+console.log('💝 Made with love for Kao Supassara');
